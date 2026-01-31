@@ -1,19 +1,39 @@
-import { useNavigate } from "react-router-dom";
-import ResponsiveAppBar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
+import { Link } from "react-router-dom";
 
 export default function Home() {
-  const navigate = useNavigate();
+  const jobs = [
+    { id: 1, title: "UI Designer", company: "Highspeed Studios" },
+    { id: 2, title: "React Developer", company: "Funk Inc" },
+    { id: 3, title: "UX Researcher", company: "Mosciski Inc" }
+  ];
 
   return (
-    
-    <div className="card">
-      <ResponsiveAppBar />
-      <h2>Welcome Home 🎉</h2>
-      <p>You are successfully logged in.</p>
+    <div className="layout">
+      <Sidebar />
 
-      <button onClick={() => navigate("/login")}>
-        Logout
-      </button>
+      <div className="content">
+        <Topbar title="Available Jobs" />
+
+        <div className="job-list">
+          {jobs.map(job => (
+            <div className="job-card" key={job.id}>
+              <h3>{job.title}</h3>
+              <p>{job.company}</p>
+
+              <div className="job-actions">
+                <Link to={`/job/${job.id}`}>
+                  <button className="small-btn">View</button>
+                </Link>
+
+                <button className="primary-btn">Apply</button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
     </div>
   );
 }
