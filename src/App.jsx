@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import JobDetails from "./pages/JobDetails";
 import AdminUsers from "./pages/AdminUsers";
 import AdminJobs from "./pages/AdminJobs";
+import "./styles.css";
+
 
 export default function App() {
   return (
