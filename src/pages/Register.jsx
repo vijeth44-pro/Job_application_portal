@@ -1,76 +1,39 @@
-import { useState } from "react";
-import { Box, Button, TextField, Typography, Paper } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const handleRegister = () => {
-    if (name && email && password) {
-      alert("Registered successfully!");
-      navigate("/login"); // go to login page
-    } else {
-      alert("Please fill all fields");
-    }
-  };
-
   return (
-    <Box
-      height="100vh"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Paper elevation={3} sx={{ p: 4, width: 320 }}>
-        <Typography variant="h5" mb={2} align="center">
-          Register
-        </Typography>
+    <div className="auth-wrapper">
+      <div className="auth-left">
+        <h4>You can easily</h4>
+        <h1>Speed up your work<br />with our Web App</h1>
+      </div>
 
-        <TextField
-          fullWidth
-          label="Name"
-          margin="normal"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+      <div className="auth-right">
+        <h2>Create Account</h2>
+        <p>Please fill details to register.</p>
 
-        <TextField
-          fullWidth
-          label="Email"
-          margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <form>
+          <label>Name</label>
+          <input placeholder="Enter your name" />
 
-        <TextField
-          fullWidth
-          label="Password"
-          type="password"
-          margin="normal"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <label>Email address</label>
+          <input placeholder="workmail@gmail.com" />
 
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{ mt: 2 }}
-          onClick={handleRegister}
-        >
-          Register
-        </Button>
+          <label>Password</label>
+          <input type="password" placeholder="••••••••" />
 
-        <Typography mt={2} align="center">
-          Already have an account?{" "}
-          <Button variant="text" onClick={() => navigate("/login")}>
-            Login
-          </Button>
-        </Typography>
-      </Paper>
-    </Box>
+          <div className="checkbox">
+            <input type="checkbox" />
+            <span>I agree to the Terms & Privacy</span>
+          </div>
+
+          <button className="primary-btn">Signup</button>
+        </form>
+
+        <p className="switch">
+          Already have an account? <Link to="/">Login</Link>
+        </p>
+      </div>
+    </div>
   );
 }
-  
