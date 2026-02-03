@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
 
-
 export default function Home() {
   const companies = [
-    "Rival Gaming", "Rammix INC", "Nested Routes Inc",
-    "Bugagga Inc.", "Transparent Ideas", "Software Kings",
-    "mindmap.ai", "Astellas Inc."
+    "Rival Gaming",
+    "Rammix INC",
+    "Nested Routes Inc",
+    "Bugagga Inc.",
+    "Transparent Ideas",
+    "Software Kings",
+    "mindmap.ai",
+    "Astellas Inc."
   ];
 
   const jobs = [
@@ -41,30 +45,33 @@ export default function Home() {
 
   return (
     <div className="home-wrapper">
-
       {/* NAVBAR */}
       <header className="home-navbar">
-        <h2 className="logo">rekroot</h2>
-        <nav>
-          <a>Home</a>
-          <a>Jobs</a>
-          <a>Blog</a>
-          <a>Pages</a>
-          <a>Contact</a>
+        <h2 className="home-logo">rekroot</h2>
+
+        <nav className="home-nav">
+          <span>Home</span>
+          <span>Jobs</span>
+          <span>Blog</span>
+          <span>Pages</span>
+          <span>Contact</span>
         </nav>
+
         <div className="nav-actions">
-          <Link to="/">Sign In</Link>
+          <Link to="/" className="signin-link">
+            Sign In
+          </Link>
           <button className="post-btn">Post a Job</button>
         </div>
       </header>
 
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section className="hero">
         <div className="hero-left">
           <h1>
             Get your new <span>dream job</span> today
           </h1>
-          <p>25,478 Offers Worldwide</p>
+          <p className="hero-subtitle">25,478 Offers Worldwide</p>
 
           <div className="search-box">
             <input placeholder="Keywords" />
@@ -82,22 +89,22 @@ export default function Home() {
         </div>
 
         <div className="hero-right">
-          <div className="hero-image">
-            {/* image placeholder */}
-          </div>
+          <div className="hero-image" />
         </div>
       </section>
 
-      {/* COMPANIES */}
+      {/* COMPANIES SECTION */}
       <section className="companies">
-        <h2>Top hiring Companies</h2>
-        <p>Get started with best companies</p>
+        <h2>Top Hiring Companies</h2>
+        <p className="section-subtitle">
+          Get started with the best companies
+        </p>
 
         <div className="company-grid">
-          {companies.map((c, i) => (
-            <div className="company-card" key={i}>
-              <div className="company-logo"></div>
-              <h4>{c}</h4>
+          {companies.map((company, index) => (
+            <div className="company-card" key={index}>
+              <div className="company-logo" />
+              <h4>{company}</h4>
               <small>2 positions</small>
             </div>
           ))}
@@ -107,14 +114,18 @@ export default function Home() {
       {/* JOB LISTINGS */}
       <section className="jobs">
         <h2>Latest Listings</h2>
-        <p>Get started with best jobs</p>
+        <p className="section-subtitle">
+          Get started with the best jobs
+        </p>
 
         <div className="job-grid">
-          {jobs.map((job, i) => (
-            <div className="job-card" key={i}>
+          {jobs.map((job, index) => (
+            <div className="job-card" key={index}>
               <div className="job-top">
                 <h4>{job.company}</h4>
-                {job.urgent && <span className="urgent">URGENT</span>}
+                {job.urgent && (
+                  <span className="urgent">URGENT</span>
+                )}
               </div>
 
               <h3>{job.title}</h3>
@@ -122,14 +133,15 @@ export default function Home() {
               <p>{job.type}</p>
 
               <div className="job-actions">
-                <button className="details-btn">Job details</button>
+                <button className="details-btn">
+                  Job details
+                </button>
                 <button className="apply-btn">+</button>
               </div>
             </div>
           ))}
         </div>
       </section>
-
     </div>
   );
 }
