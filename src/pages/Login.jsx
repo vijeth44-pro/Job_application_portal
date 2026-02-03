@@ -1,60 +1,79 @@
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Lock, Mail } from 'lucide-react';
 
-export default function Login() {
-  const navigate = useNavigate();
+const Login = ({ onLogin, onNavigate }) => {
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
 
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    // later you will add real authentication here
-    navigate("/home"); // ✅ redirect to Home page
+    onLogin(loginForm);
   };
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-left">
-        <h4>You can easily</h4>
-        <h1>Speed up your work<br />with our Web App</h1>
-
-        <div className="partners">
-          Discord • Instagram • Spotify • YouTube • TikTok
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 flex items-center justify-center px-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+        <div className="text-center mb-8">
+          <div className="inline-block bg-gradient-to-br from-indigo-600 to-purple-600 p-3 rounded-xl mb-4">
+            <Lock className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-3xl font-bold text-slate-900">Welcome Back</h2>
+          <p className="text-slate-600 mt-2">Sign in to your account</p>
         </div>
-      </div>
 
-      <div className="auth-right">
-        <h2>Get Started Now</h2>
-        <p>Please login to your account to continue.</p>
-
-        <form onSubmit={handleLogin}>
-          <label>Email address</label>
-          <input type="email" required placeholder="workmail@gmail.com" />
-
-          <label>
-            Password <span className="forgot">Forgot Password?</span>
-          </label>
-          <input type="password" required placeholder="••••••••" />
-
-          <div className="checkbox">
-            <input type="checkbox" required />
-            <span>I agree to the Terms & Privacy</span>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="email"
+                required
+                value={loginForm.email}
+                onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                placeholder="you@example.com"
+              />
+            </div>
           </div>
 
-          <button className="primary-btn" type="submit">
-            Login
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="password"
+                required
+                value={loginForm.password}
+                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
+          >
+            Sign In
           </button>
         </form>
 
-        <p className="switch">
-          Don’t have an account? <Link to="/register">Signup</Link>
+        <p className="text-center mt-6 text-slate-600">
+          Don't have an account?{' '}
+          <button onClick={() => onNavigate('register')} className="text-indigo-600 font-semibold hover:text-indigo-700">
+            Sign up
+          </button>
         </p>
 
-        <div className="divider">or</div>
-
-        <div className="social">
-          <button className="google">Login with Google</button>
-          <button className="apple">Login with Apple</button>
+        <div className="mt-6 p-4 bg-slate-50 rounded-lg text-sm text-slate-600">
+          <p className="font-semibold mb-2">Demo Credentials:</p>
+          <p>User: user@example.com / user123</p>
+          <p>Admin: admin@example.com / admin123</p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Login;

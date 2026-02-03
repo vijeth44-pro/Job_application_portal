@@ -1,13 +1,35 @@
 import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
 import { useState } from "react";
 
 export default function AdminJobs() {
-  const [jobs, setJobs] = useState([
-    { id: 1, title: "UI Designer", company: "Highspeed Studios", type: "Full Time" },
-    { id: 2, title: "React Developer", company: "Funk Inc", type: "Part Time" }
-  ]);
+  /* =====================
+     COMPANIES STATE
+     ===================== */
+  const [companies, setCompanies] = useState([]);
+  const [newCompany, setNewCompany] = useState({
+    name: "",
+    role: ""
+  });
 
+  const addCompany = () => {
+    if (!newCompany.name || !newCompany.role) return;
+
+    setCompanies([
+      ...companies,
+      { id: Date.now(), ...newCompany }
+    ]);
+
+    setNewCompany({ name: "", role: "" });
+  };
+
+  const removeCompany = (id) => {
+    setCompanies(companies.filter(c => c.id !== id));
+  };
+
+  /* =====================
+     JOBS STATE
+     ===================== */
+  const [jobs, setJobs] = useState([]);
   const [newJob, setNewJob] = useState({
     title: "",
     company: "",
@@ -17,7 +39,11 @@ export default function AdminJobs() {
   const addJob = () => {
     if (!newJob.title || !newJob.company || !newJob.type) return;
 
-    setJobs([...jobs, { ...newJob, id: Date.now() }]);
+    setJobs([
+      ...jobs,
+      { id: Date.now(), ...newJob }
+    ]);
+
     setNewJob({ title: "", company: "", type: "" });
   };
 
@@ -30,9 +56,64 @@ export default function AdminJobs() {
       <Sidebar />
 
       <div className="content">
-        <Topbar title="Manage Jobs" />
+        {/* TOPBAR */}
+        <div className="topbar">
+          <h2>Admin Dashboard</h2>
+          <div className="profile">Admin</div>
+        </div>
 
-        {/* ADD JOB FORM */}
+        {/* =====================
+            COMPANIES SECTION
+           ===================== */}
+        <h3>Manage Companies</h3>
+
+        <div className="company-form">
+          <input
+            placeholder="Company Name"
+            value={newCompany.name}
+            onChange={(e) =>
+              setNewCompany({ ...newCompany, name: e.target.value })
+            }
+          />
+
+          <input
+            placeholder="Industry / Role"
+            value={newCompany.role}
+            onChange={(e) =>
+              setNewCompany({ ...newCompany, role: e.target.value })
+            }
+          />
+
+          <button className="small-btn" onClick={addCompany}>
+            Add Company
+          </button>
+        </div>
+
+        {companies.length === 0 && (
+          <p style={{ color: "#777" }}>No companies added yet.</p>
+        )}
+
+        <div className="dashboard-company-grid">
+          {companies.map((company) => (
+            <div className="dashboard-company-card" key={company.id}>
+              <div className="company-avatar"></div>
+              <h4>{company.name}</h4>
+              <p>{company.role}</p>
+              <button
+                className="danger-btn"
+                onClick={() => removeCompany(company.id)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* =====================
+            JOBS SECTION
+           ===================== */}
+        <h3 style={{ marginTop: "40px" }}>Manage Jobs</h3>
+
         <div className="job-form">
           <input
             placeholder="Job Title"
@@ -57,9 +138,9 @@ export default function AdminJobs() {
             }
           >
             <option value="">Select Job Type</option>
-            <option value="Full Time">Full Time</option>
-            <option value="Part Time">Part Time</option>
-            <option value="Freelance">Freelance</option>
+            <option>Full Time</option>
+            <option>Part Time</option>
+            <option>Freelance</option>
           </select>
 
           <button className="primary-btn" onClick={addJob}>
@@ -67,7 +148,10 @@ export default function AdminJobs() {
           </button>
         </div>
 
-        {/* JOB LIST */}
+        {jobs.length === 0 && (
+          <p style={{ color: "#777" }}>No jobs added yet.</p>
+        )}
+
         <table className="app-table">
           <thead>
             <tr>
