@@ -1,5 +1,4 @@
 import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
 import { useState } from "react";
 
 export default function AdminUsers() {
@@ -22,7 +21,13 @@ export default function AdminUsers() {
       <Sidebar />
 
       <div className="content">
-        <Topbar title="Manage Users" />
+        {/* 🔹 MERGED TOPBAR */}
+        <div className="topbar">
+          <h2>Manage Users</h2>
+          <div className="profile">
+            <span>Admin</span>
+          </div>
+        </div>
 
         <table className="app-table">
           <thead>
