@@ -17,12 +17,11 @@ const SearchJobs = ({ jobs, onApply }) => {
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">Find Your Next Opportunity</h2>
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+           
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent bg-white shadow-sm"
               placeholder="Search by title, company, or location..."
             />
           </div>
@@ -63,7 +62,7 @@ const SearchJobs = ({ jobs, onApply }) => {
 
               <button
                 onClick={() => setSelectedJob(job)}
-                className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition"
+                className="px-6 py-2 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg hover:shadow-lg transition"
               >
                 View Details
               </button>
@@ -116,7 +115,7 @@ const SearchJobs = ({ jobs, onApply }) => {
             </div>
 
             <div className="mb-6">
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Requirements</h4>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Requirements</h4> 
               <p className="text-slate-600">{selectedJob.requirements}</p>
             </div>
 
@@ -125,7 +124,7 @@ const SearchJobs = ({ jobs, onApply }) => {
                 onApply(selectedJob.id);
                 setSelectedJob(null);
               }}
-              className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
+              className="w-full py-4 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg transition"
             >
               Apply Now
             </button>

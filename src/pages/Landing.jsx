@@ -15,7 +15,7 @@ const Landing = ({ onNavigate, jobs }) => {
           <div className="flex gap-4 justify-center flex-wrap">
             <button 
               onClick={() => onNavigate('register')}
-              className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-xl transition transform hover:scale-105"
+              className="px-8 py-4 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg font-semibold hover:shadow-xl transition transform hover:scale-105"
             >
               Get Started
             </button>
