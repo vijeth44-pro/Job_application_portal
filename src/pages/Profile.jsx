@@ -7,7 +7,7 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
     location: '',
     experience: '',
     skills: '',
-    resume: ''
+    resume: null
   });
 
   useEffect(() => {
@@ -16,100 +16,96 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
     }
   }, [currentUser]);
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfileForm({
+        ...profileForm,
+        resume: {
+          name: file.name,
+          type: file.type,
+          data: reader.result
+        }
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdateProfile(profileForm);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">My Profile</h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
-                <input
-                  type="text"
-                  required
-                  value={profileForm.name}
-                  onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                  placeholder="John Doe"
-                />
-              </div>
+    <div className="min-h-screen py-12 px-4">
+      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow">
+        <h2 className="text-3xl font-bold mb-6">My Profile</h2>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Phone</label>
-                <input
-                  type="tel"
-                  required
-                  value={profileForm.phone}
-                  onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                  placeholder="+1 234 567 8900"
-                />
-              </div>
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            placeholder="Full Name"
+            value={profileForm.name}
+            onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+            className="w-full px-4 py-3 border rounded-lg"
+            required
+          />
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Location</label>
-              <input
-                type="text"
-                required
-                value={profileForm.location}
-                onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                placeholder="San Francisco, CA"
-              />
-            </div>
+          <input
+            placeholder="Phone"
+            value={profileForm.phone}
+            onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+            className="w-full px-4 py-3 border rounded-lg"
+            required
+          />
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Experience</label>
-              <input
-                type="text"
-                required
-                value={profileForm.experience}
-                onChange={(e) => setProfileForm({ ...profileForm, experience: e.target.value })}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                placeholder="5 years"
-              />
-            </div>
+          <input
+            placeholder="Location"
+            value={profileForm.location}
+            onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
+            className="w-full px-4 py-3 border rounded-lg"
+            required
+          />
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Skills</label>
-              <textarea
-                required
-                value={profileForm.skills}
-                onChange={(e) => setProfileForm({ ...profileForm, skills: e.target.value })}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                placeholder="React, JavaScript, CSS, Node.js"
-                rows="3"
-              />
-            </div>
+          <input
+            placeholder="Experience"
+            value={profileForm.experience}
+            onChange={(e) => setProfileForm({ ...profileForm, experience: e.target.value })}
+            className="w-full px-4 py-3 border rounded-lg"
+            required
+          />
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Resume (URL or filename)</label>
-              <input
-                type="text"
-                required
-                value={profileForm.resume}
-                onChange={(e) => setProfileForm({ ...profileForm, resume: e.target.value })}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                placeholder="resume.pdf or https://..."
-              />
-            </div>
+          <textarea
+            placeholder="Skills"
+            value={profileForm.skills}
+            onChange={(e) => setProfileForm({ ...profileForm, skills: e.target.value })}
+            className="w-full px-4 py-3 border rounded-lg"
+            required
+          />
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
-            >
-              Save Profile
-            </button>
-          </form>
-        </div>
+          {/* ✅ RESUME UPLOAD */}
+          <div>
+            <label className="block font-medium mb-2">Resume (PDF / DOC / DOCX)</label>
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={handleFileChange}
+              className="w-full"
+              required={!profileForm.resume}
+            />
+            {profileForm.resume && (
+              <p className="text-sm text-green-600 mt-1">
+                Uploaded: {profileForm.resume.name}
+              </p>
+            )}
+          </div>
+
+          <button className="w-full py-3 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg">
+            Save Profile
+          </button>
+        </form>
       </div>
     </div>
   );
