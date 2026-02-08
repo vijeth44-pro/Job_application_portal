@@ -9,10 +9,10 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2 rounded-lg">
+            <div className="bg-gradient-to-br from-blue-800 to-blue-500 p-2 rounded-lg">
               <Briefcase className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-800 to-blue-500 bg-clip-text text-transparent">
               JobPortal
             </span>
           </div>
@@ -21,8 +21,8 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
           <div className="hidden md:flex items-center gap-6">
             {currentUser ? (
               <>
-                <button 
-                  onClick={() => onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard')} 
+                <button
+                  onClick={() => onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard')}
                   className="text-slate-600 hover:text-slate-900 transition"
                 >
                   Dashboard
@@ -53,7 +53,7 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
                 <button onClick={() => onNavigate('login')} className="px-4 py-2 text-slate-700 hover:text-slate-900 transition">
                   Login
                 </button>
-                <button onClick={() => onNavigate('register')} className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition">
+                <button onClick={() => onNavigate('register')} className="px-4 py-2 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg hover:shadow-lg transition">
                   Sign Up
                 </button>
               </>
@@ -61,7 +61,7 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             className="md:hidden p-2 text-slate-600"
           >
@@ -74,8 +74,8 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
           <div className="md:hidden py-4 border-t border-slate-200">
             {currentUser ? (
               <div className="flex flex-col gap-2">
-                <button 
-                  onClick={() => { onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard'); setShowMobileMenu(false); }} 
+                <button
+                  onClick={() => { onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard'); setShowMobileMenu(false); }}
                   className="px-4 py-2 text-left text-slate-700 hover:bg-slate-50 rounded"
                 >
                   Dashboard

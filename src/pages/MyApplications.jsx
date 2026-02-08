@@ -18,7 +18,7 @@ const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
             <p className="text-slate-600 text-lg mb-4">You haven't applied to any jobs yet.</p>
             <button
               onClick={() => onNavigate('search-jobs')}
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition"
+              className="px-6 py-3 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg hover:shadow-lg transition"
             >
               Browse Jobs
             </button>
