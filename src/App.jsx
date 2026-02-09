@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import AdminLogin from "./pages/AdminLogin";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import SearchJobs from "./pages/SearchJobs";
@@ -70,6 +71,7 @@ const App = () => {
     const pathToView = {
       "/": "landing",
       "/login": "login",
+      "/admin-login": "admin-login",
       "/register": "register",
       "/profile": "profile",
       "/jobs": "search-jobs",
@@ -85,6 +87,7 @@ const App = () => {
     const viewToPath = {
       landing: "/",
       login: "/login",
+      "admin-login": "/admin-login",
       register: "/register",
       profile: "/profile",
       "search-jobs": "/jobs",
@@ -134,6 +137,29 @@ const App = () => {
     setCurrentUser(user);
     setView(user.role === "admin" ? "admin-dashboard" : "user-dashboard");
     setSuccess("Login successful!");
+  };
+
+  /* ================= ADMIN LOGIN ================= */
+  const handleAdminLogin = (loginForm) => {
+    const user = users.find(
+      u =>
+        u.email === loginForm.email &&
+        u.password === loginForm.password
+    );
+
+    if (!user) {
+      setError("Invalid email or password");
+      return;
+    }
+
+    if (user.role !== "admin") {
+      setError("Access denied. Admin privileges required.");
+      return;
+    }
+
+    setCurrentUser(user);
+    setView("admin-dashboard");
+    setSuccess("Welcome back, Admin!");
   };
 
   /* ================= REGISTER ================= */
@@ -274,6 +300,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing onNavigate={setView} jobs={jobs} />} />
         <Route path="/login" element={<Login onLogin={handleLogin} onNavigate={setView} />} />
+        <Route path="/admin-login" element={<AdminLogin onLogin={handleAdminLogin} onNavigate={setView} />} />
         <Route path="/register" element={<Register onRegister={handleRegister} onNavigate={setView} />} />
         <Route path="/profile" element={<Profile currentUser={currentUser} onUpdateProfile={handleUpdateProfile} />} />
         <Route path="/jobs" element={<SearchJobs jobs={jobs} onApply={handleApplyJob} />} />
