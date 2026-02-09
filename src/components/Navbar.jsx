@@ -50,6 +50,9 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
                 <button onClick={() => onNavigate('landing')} className="text-slate-600 hover:text-slate-900 transition">
                   Home
                 </button>
+                <button onClick={() => onNavigate('admin-login')} className="text-slate-600 hover:text-slate-900 transition">
+                  Admin
+                </button>
                 <button onClick={() => onNavigate('login')} className="px-4 py-2 text-slate-700 hover:text-slate-900 transition">
                   Login
                 </button>
@@ -101,6 +104,9 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
               <div className="flex flex-col gap-2">
                 <button onClick={() => { onNavigate('landing'); setShowMobileMenu(false); }} className="px-4 py-2 text-left text-slate-700 hover:bg-slate-50 rounded">
                   Home
+                </button>
+                <button onClick={() => { onNavigate('admin-login'); setShowMobileMenu(false); }} className="px-4 py-2 text-left text-slate-700 hover:bg-slate-50 rounded">
+                  Admin Login
                 </button>
                 <button onClick={() => { onNavigate('login'); setShowMobileMenu(false); }} className="px-4 py-2 text-left text-slate-700 hover:bg-slate-50 rounded">
                   Login
