@@ -21,6 +21,7 @@ const Register = ({ onRegister, onNavigate }) => {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+
         <div className="text-center mb-8">
           <div className="inline-block bg-gradient-to-br from-blue-800 to-blue-500 p-3 rounded-xl mb-4">
             <User className="w-8 h-8 text-white" />
@@ -28,6 +29,8 @@ const Register = ({ onRegister, onNavigate }) => {
           <h2 className="text-3xl font-bold text-slate-900">Create Account</h2>
           <p className="text-slate-600 mt-2">Sign up to create an account</p>
         </div>
+
+
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
