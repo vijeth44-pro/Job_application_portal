@@ -6,8 +6,13 @@ import {
   Search,
   User,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Facebook,
+  Instagram,
+  Twitter,
+  Linkedin
 } from 'lucide-react';
+
 
 const UserDashboard = ({ currentUser, applications, jobs, onNavigate }) => {
   const pendingApps = applications.filter(app => app.status === 'pending').length;
@@ -210,17 +215,117 @@ const UserDashboard = ({ currentUser, applications, jobs, onNavigate }) => {
         </div>
       </div>
 
-      {/* FOOTER */}
-      <footer className="bg-white border-t border-slate-200 py-6">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-sm text-slate-600">
-          <p>© {new Date().getFullYear()} Job Portal. All rights reserved.</p>
-          <div className="flex gap-4 mt-2 md:mt-0">
-            <span className="hover:text-slate-900 cursor-pointer">Privacy</span>
-            <span className="hover:text-slate-900 cursor-pointer">Terms</span>
-            <span className="hover:text-slate-900 cursor-pointer">Support</span>
+
+      {/* PROFESSIONAL DARK FOOTER */}
+      <footer className="bg-[#0f1b3d] text-slate-300 pt-14 pb-8 mt-16">
+        <div className="max-w-7xl mx-auto px-4">
+
+          {/* Top Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+
+            {/* Logo + Description */}
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                <span className="text-blue-400">Job</span>Portal
+              </h2>
+              <p className="text-sm leading-relaxed text-slate-400">
+                Find your dream job with top companies worldwide.
+                Explore opportunities, apply instantly, and track
+                your applications easily.
+              </p>
+            </div>
+
+            {/* Links */}
+            <div>
+              <h3 className="text-white font-semibold mb-4 border-l-2 border-blue-500 pl-3">
+                Links
+              </h3>
+              <ul className="space-y-2 text-sm">
+                <li onClick={() => onNavigate('home')} className="hover:text-white cursor-pointer">
+                  Home
+                </li>
+                <li onClick={() => onNavigate('search-jobs')} className="hover:text-white cursor-pointer">
+                  Search Jobs
+                </li>
+                <li onClick={() => onNavigate('profile')} className="hover:text-white cursor-pointer">
+                  Profile
+                </li>
+                <li onClick={() => onNavigate('my-applications')} className="hover:text-white cursor-pointer">
+                  Applications
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="text-white font-semibold mb-4 border-l-2 border-blue-500 pl-3">
+                Legal
+              </h3>
+              <ul className="space-y-2 text-sm">
+                <li className="hover:text-white cursor-pointer">Terms of Service</li>
+                <li className="hover:text-white cursor-pointer">Privacy Policy</li>
+                <li className="hover:text-white cursor-pointer">Support</li>
+                <li className="hover:text-white cursor-pointer">Contact</li>
+              </ul>
+            </div>
+
+            {/* Social Media */}
+            <div>
+              <h3 className="text-white font-semibold mb-4 border-l-2 border-blue-500 pl-3">
+                Follow Us
+              </h3>
+
+              <div className="flex gap-4">
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-slate-700 hover:bg-blue-600 transition rounded flex items-center justify-center"
+                >
+                  <Facebook size={16} className="text-white" />
+                </a>
+
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-slate-700 hover:bg-pink-500 transition rounded flex items-center justify-center"
+                >
+                  <Instagram size={16} className="text-white" />
+                </a>
+
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-slate-700 hover:bg-sky-500 transition rounded flex items-center justify-center"
+                >
+                  <Twitter size={16} className="text-white" />
+                </a>
+
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-slate-700 hover:bg-blue-700 transition rounded flex items-center justify-center"
+                >
+                  <Linkedin size={16} className="text-white" />
+                </a>
+              </div>
+            </div>
+
           </div>
+
+          {/* Bottom */}
+          <div className="border-t border-slate-700 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+            <p>© {new Date().getFullYear()} Job Portal. All rights reserved.</p>
+            <span className="mt-2 md:mt-0">English</span>
+          </div>
+
         </div>
       </footer>
+
+
 
     </div>
   );
