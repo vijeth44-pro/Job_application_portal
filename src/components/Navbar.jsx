@@ -21,8 +21,8 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
           <div className="hidden md:flex items-center gap-6">
             {currentUser ? (
               <>
-                <button 
-                  onClick={() => onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard')} 
+                <button
+                  onClick={() => onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard')}
                   className="text-slate-600 hover:text-slate-900 transition"
                 >
                   Dashboard
@@ -64,7 +64,7 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             className="md:hidden p-2 text-slate-600"
           >
@@ -77,8 +77,8 @@ const Navbar = ({ currentUser, onLogout, onNavigate }) => {
           <div className="md:hidden py-4 border-t border-slate-200">
             {currentUser ? (
               <div className="flex flex-col gap-2">
-                <button 
-                  onClick={() => { onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard'); setShowMobileMenu(false); }} 
+                <button
+                  onClick={() => { onNavigate(currentUser.role === 'admin' ? 'admin-dashboard' : 'user-dashboard'); setShowMobileMenu(false); }}
                   className="px-4 py-2 text-left text-slate-700 hover:bg-slate-50 rounded"
                 >
                   Dashboard
