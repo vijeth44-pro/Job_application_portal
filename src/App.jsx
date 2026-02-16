@@ -29,7 +29,7 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  /* ================= LOAD FROM STORAGE (FIXED) ================= */
+  /* ================= LOAD FROM STORAGE ================= */
   useEffect(() => {
     const savedJobs = storage.getJobs();
     const savedUsers = storage.getUsers();
@@ -38,7 +38,6 @@ const App = () => {
 
     if (savedJobs) setJobs(savedJobs);
 
-    // ✅ SAFE MERGE USERS (ADMIN + NEW USERS)
     if (savedUsers) {
       const mergedUsers = [...initialUsers];
 

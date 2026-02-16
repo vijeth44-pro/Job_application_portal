@@ -290,3 +290,31 @@ input:focus {
   background: #cbd5e1;
   border-radius: 10px;
 }
+
+.gradient-animate {
+  background: linear-gradient(90deg, #3b0ca3, #7209b7, #560bad, #3b0ca3);
+  background-size: 300% 300%;
+  animation: gradientMove 6s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.nav-link {
+  @apply px-3 py-2 text-slate-700 hover:text-slate-900 transition;
+}
+
+.mobile-link {
+  @apply block px-4 py-2 text-left text-slate-700 hover:bg-slate-100 rounded;
+}
