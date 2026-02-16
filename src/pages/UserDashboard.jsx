@@ -65,7 +65,9 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
         </div>
       </div>
 
+
       {/* 🔥 MAIN CONTENT */}
+
 
 
       {/* MAIN CONTENT */}
@@ -189,13 +191,13 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
 
 
       {/* ===================================================== */}
-      {/* DASHBOARD EXTENDED SECTIONS – BLUE LIQUID GLASS */}
+      {/* DASHBOARD EXTENDED SECTIONS – CLEAN PREMIUM GLASS */}
       {/* ===================================================== */}
 
-      <section className="space-y-20">
+      <section className="space-y-24">
 
         {/* ===================== 1. JOB STATS ===================== */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { title: "Live Jobs", value: "1,75,324" },
             { title: "Companies", value: "97,354" },
@@ -204,30 +206,19 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
           ].map((item, index) => (
             <div
               key={index}
-              className="group relative rounded-3xl p-[1px] transition-all duration-500 hover:-translate-y-4"
+              className="group rounded-3xl p-8
+          border border-blue-500
+          bg-white/80 backdrop-blur-lg
+          shadow-sm hover:shadow-md
+          transition duration-300 hover:-translate-y-2"
             >
-              <div
-                className="relative rounded-3xl 
-          bg-gradient-to-br from-[#5A86E8] to-[#3B6EDC]
-          border border-white/20
-          shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-          p-8 overflow-hidden"
-              >
-                {/* Glass Overlay */}
-                <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-3xl pointer-events-none z-0" />
+              <h4 className="text-sm text-slate-500">
+                {item.title}
+              </h4>
 
-                {/* Reflection */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 rounded-3xl pointer-events-none z-0" />
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <h4 className="text-sm text-white/80">{item.title}</h4>
-                  <p className="text-3xl font-bold text-white mt-3">
-                    {item.value}
-                  </p>
-                </div>
-
-              </div>
+              <p className="text-3xl font-bold text-slate-900 mt-3">
+                {item.value}
+              </p>
             </div>
           ))}
         </div>
@@ -252,28 +243,19 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
             ].map((job, index) => (
               <div
                 key={index}
-                className="group relative rounded-3xl p-[1px] transition duration-500 hover:-translate-y-3"
+                className="group rounded-2xl p-6
+            border border-blue-500
+            bg-white/80 backdrop-blur-md
+            shadow-sm hover:shadow-md
+            transition duration-300 hover:-translate-y-1 cursor-pointer"
               >
-                <div
-                  className="relative rounded-3xl 
-            bg-gradient-to-br from-[#5A86E8] to-[#3B6EDC]
-            border border-white/20
-            shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-            p-6 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-3xl pointer-events-none z-0" />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 rounded-3xl pointer-events-none z-0" />
+                <p className="font-semibold text-slate-800 group-hover:text-blue-600 transition">
+                  {job}
+                </p>
 
-                  <div className="relative z-10">
-                    <p className="font-semibold text-white">
-                      {job}
-                    </p>
-                    <span className="text-xs text-white/80">
-                      {Math.floor(Math.random() * 50000)} Open Positions
-                    </span>
-                  </div>
-
-                </div>
+                <span className="text-xs text-slate-500">
+                  {Math.floor(Math.random() * 50000)} Open Positions
+                </span>
               </div>
             ))}
           </div>
@@ -295,29 +277,20 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
             ].map((step, index) => (
               <div
                 key={index}
-                className="group relative rounded-3xl p-[1px] transition duration-500 hover:-translate-y-5"
+                className="group rounded-3xl p-10
+            border border-blue-500
+            bg-white/80 backdrop-blur-lg
+            shadow-sm hover:shadow-md
+            transition duration-300 hover:-translate-y-2"
               >
-                <div
-                  className="relative rounded-3xl 
-            bg-gradient-to-br from-[#5A86E8] to-[#3B6EDC]
-            border border-white/20
-            shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-            p-10 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-3xl pointer-events-none z-0" />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 rounded-3xl pointer-events-none z-0" />
-
-                  <div className="relative z-10">
-                    <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-xl text-white shadow-lg">
-                      <step.icon size={22} />
-                    </div>
-
-                    <h4 className="font-semibold text-white">
-                      {step.title}
-                    </h4>
-                  </div>
-
+                <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full 
+            bg-blue-600 text-white shadow-md group-hover:scale-105 transition">
+                  <step.icon size={22} />
                 </div>
+
+                <h4 className="font-semibold text-slate-800">
+                  {step.title}
+                </h4>
               </div>
             ))}
           </div>
@@ -326,8 +299,8 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
 
         {/* ===================== 4. POPULAR CATEGORY ===================== */}
         <div>
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl font-bold text-slate-900">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-12">
               Popular Category
             </h2>
           </div>
@@ -345,38 +318,25 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
             ].map((cat, index) => (
               <div
                 key={index}
-                className="group relative rounded-3xl p-[1px] transition duration-500 hover:-translate-y-4"
+                className="group rounded-3xl p-8
+            border border-blue-500
+            bg-white/80 backdrop-blur-lg
+            shadow-sm hover:shadow-md
+            transition duration-300 hover:-translate-y-2"
               >
-                <div
-                  className="relative rounded-3xl 
-            bg-gradient-to-br from-[#5A86E8] to-[#3B6EDC]
-            border border-white/20
-            shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-            p-8 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-3xl pointer-events-none z-0" />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 rounded-3xl pointer-events-none z-0" />
+                <p className="font-semibold text-slate-800 group-hover:text-blue-600 transition">
+                  {cat}
+                </p>
 
-                  <div className="relative z-10">
-                    <p className="font-semibold text-white">
-                      {cat}
-                    </p>
-                    <span className="text-xs text-white/80">
-                      {Math.floor(Math.random() * 500)} Open Positions
-                    </span>
-                  </div>
-
-                </div>
+                <span className="text-xs text-slate-500">
+                  {Math.floor(Math.random() * 500)} Open Positions
+                </span>
               </div>
             ))}
           </div>
         </div>
 
       </section>
-
-
-
-
 
       {/* FOOTER */}
       <footer className="bg-gradient-to-r from-[#0f172a] via-[#0b1f3a] to-[#1e3a8a] text-slate-300 pt-16 pb-8 mt-24">
