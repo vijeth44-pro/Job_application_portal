@@ -35,6 +35,14 @@ const Navbar = ({ currentUser, onLogout, onNavigate, darkMode, setDarkMode }) =>
               Home
             </button>
 
+            {/* About */}
+            <button
+              onClick={() => onNavigate("about")}
+              className="px-4 py-2 bg-white/20 backdrop-blur-xl border border-white/30 text-white font-medium rounded-xl shadow-lg hover:bg-white/30 transition-all duration-300"
+            >
+              About
+            </button>
+
             {!currentUser ? (
               <>
                 {/* Not Logged In */}
