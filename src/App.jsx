@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -12,6 +12,7 @@ import About from "./pages/About";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentUser, setCurrentUser] = useState(null);
   
   // Mock data for demonstration
@@ -77,11 +78,18 @@ function App() {
 
   return (
     <div className="app-container">
-      <Navbar
-        currentUser={currentUser}
-        onLogout={handleLogout}
-        onNavigate={handleNavigate}
-      />
+      {location.pathname !== "/login" && location.pathname !== "/register" && (
+        <Navbar
+          currentUser={currentUser}
+          onLogout={handleLogout}
+          onNavigate={handleNavigate}
+        />
+      )}
+      {(location.pathname === "/login" || location.pathname === "/register") && (
+        <div className="p-4">
+          <Link to="/" className="text-indigo-600 hover:text-indigo-800 font-medium">&larr; Back to Home</Link>
+        </div>
+      )}
       <Routes>
         <Route path="/" element={<Landing onNavigate={handleNavigate} jobs={jobs} />} />
         <Route path="/login" element={<Login />} />
