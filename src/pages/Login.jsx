@@ -1,5 +1,6 @@
 import React ,{useState} from "react";
 import { Box, Button, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 import axios from 'axios'
 
 export default function Login() {
@@ -53,6 +54,14 @@ export default function Login() {
             value={form.userpassword}
         />
         <Button variant="contained" onClick={handleSubmit}>Login User</Button>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+          <Link to="/forgot-password" style={{ textDecoration: "none", fontSize: "14px", color: "#1976d2" }}>
+            Forgot Password?
+          </Link>
+          <Link to="/register" style={{ textDecoration: "none", fontSize: "14px", color: "#1976d2" }}>
+            Don't have an account?
+          </Link>
+        </Box>
       </Box>
     </div>
   );

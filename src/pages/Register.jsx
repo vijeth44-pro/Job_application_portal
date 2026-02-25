@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
@@ -65,6 +66,11 @@ export default function Register() {
         />
 
         <Button variant="contained" onClick={handleSubmit}>Signup User</Button>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
+          <Link to="/login" style={{ textDecoration: "none", fontSize: "14px", color: "#1976d2" }}>
+            Already have an account? Login
+          </Link>
+        </Box>
       </Box>
     </div>
   );
