@@ -14,9 +14,10 @@ import {
   Instagram,
   Twitter,
   Linkedin,
+  LogOut,
 } from "lucide-react";
 
-const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }) => {
+const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate, onLogout }) => {
   const pendingApps = applications.filter(
     (app) => app.status === "pending"
   ).length;
@@ -26,6 +27,17 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
 
       {/* 🔥 HERO SECTION - FULL WIDTH */}
       <div className="relative w-full h-[450px] overflow-hidden bg-black">
+
+        {/* Logout Button */}
+        <div className="absolute top-6 right-6 z-20">
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-lg hover:bg-white/20 transition-all"
+          >
+            <LogOut size={18} />
+            Sign Out
+          </button>
+        </div>
 
         {/* Gradient Animation */}
         <GradientBlinds

@@ -76,9 +76,14 @@ function App() {
     navigate("/");
   };
 
+  const handleLogin = (user) => {
+    setCurrentUser(user);
+    navigate("/dashboard");
+  };
+
   return (
     <div className="app-container">
-      {location.pathname !== "/login" && location.pathname !== "/register" && (
+      {location.pathname !== "/login" && location.pathname !== "/register" && location.pathname !== "/dashboard" && (
         <Navbar
           currentUser={currentUser}
           onLogout={handleLogout}
@@ -92,10 +97,10 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<Landing onNavigate={handleNavigate} jobs={jobs} />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<UserDashboard currentUser={currentUser} applications={applications} jobs={jobs} onNavigate={handleNavigate} />} />
+        <Route path="/dashboard" element={<UserDashboard currentUser={currentUser} applications={applications} jobs={jobs} onNavigate={handleNavigate} onLogout={handleLogout} />} />
         <Route path="/jobs" element={<SearchJobs jobs={jobs} onApply={() => {}} />} />
         <Route path="/profile" element={<Profile currentUser={currentUser} onUpdateProfile={() => {}} />} />
         <Route path="/applications" element={<MyApplications applications={applications} jobs={jobs} onWithdraw={() => {}} onNavigate={handleNavigate} />} />

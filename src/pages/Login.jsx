@@ -3,7 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 
-export default function Login() {
+export default function Login({ onLogin }) {
     const [form,setForm] = useState({
         useremail:"",
         userpassword:""
@@ -20,6 +20,7 @@ export default function Login() {
             if(res.data.success){
                 alert("Loged in sucessfully")
                 localStorage.setItem("mytoken",res.data.token)
+                onLogin(res.data.user)
             }
         } catch (error) {
           alert(error)

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
     useremail: "",
@@ -20,7 +21,8 @@ export default function Register() {
         const res = await axios.post("http://localhost:9000/auth/register", form)
         console.log(res.data)
         if(res.data.success){
-            alert("Data added sucessfully")
+            alert("Registration successful! Please sign in.");
+            navigate("/login");
         }
 
     } catch (error) {
