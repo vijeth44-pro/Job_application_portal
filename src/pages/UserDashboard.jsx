@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import GradientBlinds from "../components/GradientBlinds";
 import BlurText from "../components/BlurText";
+import { motion } from "framer-motion";
+import FooterAfterLogin from "../components/FooterAfterLogin";
 
 import {
   FileText,
@@ -14,22 +17,91 @@ import {
   Instagram,
   Twitter,
   Linkedin,
+  LogOut,
 } from "lucide-react";
 
-const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }) => {
+
+
+const UserDashboard = ({
+  currentUser,
+  applications = [],
+  jobs = [],
+  onNavigate,
+  onLogout,
+}) => {
+
+  const navigate = useNavigate();
+  const [candidateCount, setCandidateCount] = useState(0);
+
+  useEffect(() => {
+  fetch("http://localhost:9000/admin/users/count")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        setCandidateCount(data.count);
+      }
+    })
+    .catch((err) => console.error("Error fetching user count:", err));
+}, []);
+
+
+
+  const go = (page) => {
+    if (onNavigate) {
+      onNavigate(page);
+      return;
+    }
+
+    switch (page) {
+      case "search-jobs":
+        navigate("/jobs");
+        break;
+      case "profile":
+        navigate("/profile");
+        break;
+      case "my-applications":
+        navigate("/applications");
+        break;
+      case "landing":
+        navigate("/");
+        break;
+      case "register":
+        navigate("/register");
+        break;
+      case "login":
+        navigate("/login");
+        break;
+      default:
+        navigate("/");
+    }
+  };
+
   const pendingApps = applications.filter(
     (app) => app.status === "pending"
   ).length;
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 flex flex-col">
 
-      {/* 🔥 HERO SECTION - FULL WIDTH */}
+      {/* ================= HERO ================= */}
       <div className="relative w-full h-[450px] overflow-hidden bg-black">
 
-        {/* Gradient Animation */}
+
+
         <GradientBlinds
-          gradientColors={['#2c478cff', '#0266f1ff']}
+          gradientColors={["#2c478cff", "#0266f1ff"]}
           angle={45}
           noise={0.3}
           blindCount={20}
@@ -43,11 +115,9 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
           mixBlendMode="normal"
         />
 
-        {/* Text Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 pointer-events-none">
-
           <BlurText
-            text={`Welcome back, ${currentUser?.profile?.name || "User"}!`}
+            text={`Welcome , ${currentUser?.name || "User"}!`}
             delay={150}
             animateBy="words"
             direction="top"
@@ -61,21 +131,15 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
             direction="top"
             className="text-white/80 text-lg"
           />
-
         </div>
       </div>
 
-
-      {/* 🔥 MAIN CONTENT */}
-
-
-
-      {/* MAIN CONTENT */}
+      {/* ================= MAIN CONTENT ================= */}
       <div className="flex-grow py-12 px-4">
         <div className="max-w-7xl mx-auto">
 
           {/* Stats */}
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
 
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
@@ -119,309 +183,166 @@ const UserDashboard = ({ currentUser, applications = [], jobs = [], onNavigate }
 
           </div>
 
-          {/* Quick Actions + Profile Status */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {/* Quick Actions + Profile */}
 
-            {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">
-                Quick Actions
-              </h3>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
 
-              <div className="space-y-3">
-                <button
-                  onClick={() => onNavigate("search-jobs")}
-                  className="w-full py-3 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-700/60 backdrop-blur-xl border border-white/40 text-white font-semibold shadow-[0_10px_40px_rgba(37,99,235,0.45)] hover:shadow-[0_12px_50px_rgba(37,99,235,0.65)] hover:scale-[1.03] transition-all duration-300-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition flex items-center gap-3"
-                >
-                  <Search className="w-5 h-5" />
-                  Browse Jobs
-                </button>
 
-                <button
-                  onClick={() => onNavigate("profile")}
-                  className="w-full py-3 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-700/60 backdrop-blur-xl border border-white/40 text-white font-semibold shadow-[0_10px_40px_rgba(37,99,235,0.45)] hover:shadow-[0_12px_50px_rgba(37,99,235,0.65)] hover:scale-[1.03] transition-all duration-300-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition flex items-center gap-3"
-                >
-                  <User className="w-5 h-5" />
-                  Update Profile
-                </button>
+            <div className="grid md:grid-cols-2 gap-6 mb-24">
 
-                <button
-                  onClick={() => onNavigate("my-applications")}
-                  className="w-full py-3 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-700/60 backdrop-blur-xl border border-white/40 text-white font-semibold shadow-[0_10px_40px_rgba(37,99,235,0.45)] hover:shadow-[0_12px_50px_rgba(37,99,235,0.65)] hover:scale-[1.03] transition-all duration-300-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition flex items-center gap-3"
-                >
-                  <FileText className="w-5 h-5" />
-                  View Applications
-                </button>
-              </div>
-            </div>
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">
+                  Quick Actions
+                </h3>
 
-            {/* Profile Status */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">
-                Profile Status
-              </h3>
-
-              {currentUser?.profile ? (
                 <div className="space-y-3">
+
+                  <button
+                    onClick={() => go("search-jobs")}
+                    className="w-full py-3 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-700/60 backdrop-blur-xl border border-white/40 text-white font-semibold shadow-[0_10px_40px_rgba(37,99,235,0.45)] hover:shadow-[0_12px_50px_rgba(37,99,235,0.65)] hover:scale-[1.03] transition-all duration-300-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition flex items-center gap-3"
+                  >
+                    <Search className="w-5 h-5" />
+                    Browse Jobs
+                  </button>
+
+                  <button
+                    onClick={() => go("profile")}
+                    className="w-full py-3 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-700/60 backdrop-blur-xl border border-white/40 text-white font-semibold shadow-[0_10px_40px_rgba(37,99,235,0.45)] hover:shadow-[0_12px_50px_rgba(37,99,235,0.65)] hover:scale-[1.03] transition-all duration-300-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition flex items-center gap-3"
+                  >
+                    <User className="w-5 h-5" />
+                    Update Profile
+                  </button>
+
+                  <button
+                    onClick={() => go("my-applications")}
+                    className="w-full py-3 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-700/60 backdrop-blur-xl border border-white/40 text-white font-semibold shadow-[0_10px_40px_rgba(37,99,235,0.45)] hover:shadow-[0_12px_50px_rgba(37,99,235,0.65)] hover:scale-[1.03] transition-all duration-300-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition flex items-center gap-3"
+                  >
+                    <FileText className="w-5 h-5" />
+                    View Applications
+                  </button>
+
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">
+                  Profile Status
+                </h3>
+
+                {currentUser?.profile ? (
                   <div className="flex items-center gap-2 text-green-600">
                     <CheckCircle className="w-5 h-5" />
                     <span>Profile Complete</span>
                   </div>
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-center gap-2 text-yellow-600 mb-4">
-                    <AlertCircle className="w-5 h-5" />
-                    <span>Profile Incomplete</span>
-                  </div>
+                ) : (
+                  <div>
+                    <div className="flex items-center gap-2 text-yellow-600 mb-4">
+                      <AlertCircle className="w-5 h-5" />
+                      <span>Profile Incomplete</span>
+                    </div>
 
-                  <button
-                    onClick={() => onNavigate("profile")}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg"
-                  >
-                    Complete Profile
-                  </button>
-                </div>
-              )}
+                    <button
+                      onClick={() => go("profile")}
+                      className="px-4 py-2 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg"
+                    >
+                      Complete Profile
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
-          </div>
+          </motion.div>
+
+          {/* ================= EXTENDED SECTIONS ================= */}
+
+          {/* Job Stats */}
+
+
+          <section className="space-y-24">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {[
+                  { title: "Live Jobs", value: jobs.length },
+                  { title: "Companies", value: "100+" },
+                  { title: "Candidates", value: candidateCount },
+                  { title: "New Jobs", value: jobs.length },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="rounded-3xl p-8 border border-blue-500 bg-white/80 backdrop-blur-lg shadow-sm hover:shadow-md transition duration-300 hover:-translate-y-2"
+                  >
+                    <h4 className="text-sm text-slate-500">
+                      {item.title}
+                    </h4>
+
+                    <p className="text-3xl font-bold text-slate-900 mt-3">
+                      {item.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+            </motion.div>
+
+            {/* Popular Vacancies */}
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-slate-900 mb-12">
+                  Most Popular Vacancies
+                </h2>
+
+                <div className="grid md:grid-cols-4 gap-10 text-sm">
+                  {[
+                    "Software Developer",
+                    "Data Scientist",
+                    "Financial Manager",
+                    "IT Manager",
+                    "Management Analysis",
+                    "Operations Research Analysis",
+                    "Psychiatrists",
+                    "Orthodontists",
+                  ].map((job, index) => (
+                    <div
+                      key={index}
+                      className="rounded-2xl p-6 border border-blue-500 bg-white/80 backdrop-blur-md shadow-sm hover:shadow-md transition duration-300 hover:-translate-y-1 cursor-pointer"
+                    >
+                      <p className="font-semibold text-slate-800 hover:text-blue-600 transition">
+                        {job}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+          </section>
+
         </div>
       </div>
+      
 
+      <FooterAfterLogin />
 
-      {/* ===================================================== */}
-      {/* DASHBOARD EXTENDED SECTIONS – CLEAN PREMIUM GLASS */}
-      {/* ===================================================== */}
-
-      <section className="space-y-24">
-
-        {/* ===================== 1. JOB STATS ===================== */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {[
-            { title: "Live Jobs", value: "1,75,324" },
-            { title: "Companies", value: "97,354" },
-            { title: "Candidates", value: "38,47,154" },
-            { title: "New Jobs", value: "7,532" },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="group rounded-3xl p-8
-          border border-blue-500
-          bg-white/80 backdrop-blur-lg
-          shadow-sm hover:shadow-md
-          transition duration-300 hover:-translate-y-2"
-            >
-              <h4 className="text-sm text-slate-500">
-                {item.title}
-              </h4>
-
-              <p className="text-3xl font-bold text-slate-900 mt-3">
-                {item.value}
-              </p>
-            </div>
-          ))}
-        </div>
-
-
-        {/* ===================== 2. MOST POPULAR VACANCIES ===================== */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12">
-            Most Popular Vacancies
-          </h2>
-
-          <div className="grid md:grid-cols-4 gap-10 text-sm">
-            {[
-              "Software Developer",
-              "Data Scientist",
-              "Financial Manager",
-              "IT Manager",
-              "Management Analysis",
-              "Operations Research Analysis",
-              "Psychiatrists",
-              "Orthodontists",
-            ].map((job, index) => (
-              <div
-                key={index}
-                className="group rounded-2xl p-6
-            border border-blue-500
-            bg-white/80 backdrop-blur-md
-            shadow-sm hover:shadow-md
-            transition duration-300 hover:-translate-y-1 cursor-pointer"
-              >
-                <p className="font-semibold text-slate-800 group-hover:text-blue-600 transition">
-                  {job}
-                </p>
-
-                <span className="text-xs text-slate-500">
-                  {Math.floor(Math.random() * 50000)} Open Positions
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-        {/* ===================== 3. HOW JOBPORTAL WORKS ===================== */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-16">
-            How JobPortal Works
-          </h2>
-
-          <div className="grid md:grid-cols-4 gap-10">
-            {[
-              { title: "Create Account", icon: User },
-              { title: "Upload Resume", icon: FileText },
-              { title: "Find Suitable Job", icon: Search },
-              { title: "Apply Job", icon: CheckCircle },
-            ].map((step, index) => (
-              <div
-                key={index}
-                className="group rounded-3xl p-10
-            border border-blue-500
-            bg-white/80 backdrop-blur-lg
-            shadow-sm hover:shadow-md
-            transition duration-300 hover:-translate-y-2"
-              >
-                <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full 
-            bg-blue-600 text-white shadow-md group-hover:scale-105 transition">
-                  <step.icon size={22} />
-                </div>
-
-                <h4 className="font-semibold text-slate-800">
-                  {step.title}
-                </h4>
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-        {/* ===================== 4. POPULAR CATEGORY ===================== */}
-        <div>
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-12">
-              Popular Category
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              "Graphics & Design",
-              "Code & Programming",
-              "Digital Marketing",
-              "Video & Animation",
-              "Music & Audio",
-              "Account & Finance",
-              "Health & Care",
-              "Data & Science",
-            ].map((cat, index) => (
-              <div
-                key={index}
-                className="group rounded-3xl p-8
-            border border-blue-500
-            bg-white/80 backdrop-blur-lg
-            shadow-sm hover:shadow-md
-            transition duration-300 hover:-translate-y-2"
-              >
-                <p className="font-semibold text-slate-800 group-hover:text-blue-600 transition">
-                  {cat}
-                </p>
-
-                <span className="text-xs text-slate-500">
-                  {Math.floor(Math.random() * 500)} Open Positions
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-      </section>
-
-      {/* FOOTER */}
-      <footer className="bg-gradient-to-r from-[#0f172a] via-[#0b1f3a] to-[#1e3a8a] text-slate-300 pt-16 pb-8 mt-24">
-        <div className="max-w-7xl mx-auto px-6">
-
-          {/* Top Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-
-            {/* Brand */}
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-4">
-                <span className="text-blue-400">Job</span>Portal
-              </h2>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Find your dream job with top companies worldwide.
-              </p>
-            </div>
-
-            {/* Links */}
-            <div>
-              <h3 className="text-white font-semibold mb-4 border-l-4 border-blue-500 pl-3">
-                Links
-              </h3>
-              <ul className="space-y-3 text-sm">
-                <li
-                  onClick={() => onNavigate("landing")}
-                  className="hover:text-white transition cursor-pointer"
-                >
-                  Home
-                </li>
-                <li
-                  onClick={() => onNavigate("register")}
-                  className="hover:text-white transition cursor-pointer"
-                >
-                  Sign Up
-                </li>
-                <li
-                  onClick={() => onNavigate("login")}
-                  className="hover:text-white transition cursor-pointer"
-                >
-                  Login
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h3 className="text-white font-semibold mb-4 border-l-4 border-blue-500 pl-3">
-                Legal
-              </h3>
-              <ul className="space-y-3 text-sm">
-                <li className="hover:text-white transition cursor-pointer">
-                  Privacy Policy
-                </li>
-                <li className="hover:text-white transition cursor-pointer">
-                  Terms of Service
-                </li>
-              </ul>
-            </div>
-
-            {/* Social */}
-            <div>
-              <h3 className="text-white font-semibold mb-4 border-l-4 border-blue-500 pl-3">
-                Follow Us
-              </h3>
-
-              <div className="flex gap-5">
-                <Facebook className="w-5 h-5 cursor-pointer text-slate-400 hover:text-blue-400 transition" />
-                <Instagram className="w-5 h-5 cursor-pointer text-slate-400 hover:text-pink-400 transition" />
-                <Twitter className="w-5 h-5 cursor-pointer text-slate-400 hover:text-sky-400 transition" />
-                <Linkedin className="w-5 h-5 cursor-pointer text-slate-400 hover:text-blue-500 transition" />
-              </div>
-            </div>
-
-          </div>
-
-          {/* Bottom Line */}
-          <div className="border-t border-white/10 pt-6 text-sm text-slate-400 text-center">
-            © {new Date().getFullYear()} Job Portal. All rights reserved.
-          </div>
-
-        </div>
-      </footer>
-
-    </div>
+    </div >
   );
 };
 

@@ -1,11 +1,19 @@
 import React from 'react';
 import { FileText, Calendar, MapPin } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
-  const myApps = applications.map(app => ({
-    ...app,
-    job: jobs.find(j => j.id === app.jobId)
-  }));
+
+const navigate = useNavigate();   // ⭐ THIS WAS MISSING
+
+const myApps = applications.map(app => ({
+  ...app,
+  job:
+    app.job ||
+    jobs?.find(
+      j => j._id === (app.jobId?._id || app.jobId || app.job?._id)
+    ),
+}));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 py-12 px-4">
@@ -17,7 +25,7 @@ const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
             <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <p className="text-slate-600 text-lg mb-4">You haven't applied to any jobs yet.</p>
             <button
-              onClick={() => onNavigate('search-jobs')}
+              onClick={() => navigate('/jobs')}
               className="px-6 py-3 bg-gradient-to-r from-blue-800 to-blue-500 text-white rounded-lg hover:shadow-lg transition"
             >
               Browse Jobs
@@ -26,7 +34,7 @@ const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
         ) : (
           <div className="grid gap-6">
             {myApps.map(app => (
-              <div key={app.id} className="bg-white rounded-xl shadow-lg p-6">
+              <div key={app._id} className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="text-xl font-bold text-slate-900">{app.job?.title}</h3>
@@ -54,7 +62,7 @@ const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
 
                 {app.status === 'pending' && (
                   <button
-                    onClick={() => onWithdraw(app.id)}
+                    onClick={() => onWithdraw(app._id)}
                     className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition"
                   >
                     Withdraw Application

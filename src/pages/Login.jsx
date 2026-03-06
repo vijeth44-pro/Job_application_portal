@@ -1,28 +1,51 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import DarkVeil from "../components/DarkVeil"; // adjust path if needed
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import DarkVeil from "../components/DarkVeil";
 
-const Login = ({ onLogin, onNavigate }) => {
+const Login = ({ onLogin }) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
+    useremail: "",
+    userpassword: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin(loginForm);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:9000/auth/login",
+        loginForm
+      );
+
+      if (res.data.success) {
+        // Save token
+        localStorage.setItem("mytoken", res.data.token);
+
+        alert("Login successful");
+
+        if (onLogin) onLogin();
+
+        navigate("/dashboard");
+      } else {
+        alert(res.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Invalid email or password");
+    }
   };
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center py-6">
+    <div className="bg-gray-100 flex items-center justify-center py-6 min-h-screen">
       <div className="w-full max-w-5xl h-[650px] bg-white rounded-4xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
-        {/* LEFT PANEL WITH DARKVEIL */}
+        {/* LEFT PANEL */}
         <div className="hidden md:flex relative overflow-hidden text-white">
-
-          {/* DarkVeil Background */}
           <div className="absolute inset-0">
             <DarkVeil
               hueShift={0}
@@ -34,10 +57,8 @@ const Login = ({ onLogin, onNavigate }) => {
             />
           </div>
 
-          {/* Optional overlay */}
           <div className="absolute inset-0 bg-black/40"></div>
 
-          {/* Content */}
           <div className="relative z-10 flex flex-col justify-between p-6 w-full">
             <div>
               <p className="text-sm opacity-80 mb-4">Welcome Back</p>
@@ -67,9 +88,12 @@ const Login = ({ onLogin, onNavigate }) => {
               <input
                 type="email"
                 required
-                value={loginForm.email}
+                value={loginForm.useremail}
                 onChange={(e) =>
-                  setLoginForm({ ...loginForm, email: e.target.value })
+                  setLoginForm({
+                    ...loginForm,
+                    useremail: e.target.value,
+                  })
                 }
                 placeholder="you@example.com"
                 className="w-full mt-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -83,9 +107,12 @@ const Login = ({ onLogin, onNavigate }) => {
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  value={loginForm.password}
+                  value={loginForm.userpassword}
                   onChange={(e) =>
-                    setLoginForm({ ...loginForm, password: e.target.value })
+                    setLoginForm({
+                      ...loginForm,
+                      userpassword: e.target.value,
+                    })
                   }
                   placeholder="••••••••"
                   className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -112,12 +139,12 @@ const Login = ({ onLogin, onNavigate }) => {
           {/* Register Link */}
           <p className="text-center mt-6 text-gray-600">
             Don't have an account?{" "}
-            <button
-              onClick={() => onNavigate("register")}
-              className="text-blue-600 font-medium"
+            <span
+              onClick={() => navigate("/register")}
+              className="text-blue-600 font-medium cursor-pointer"
             >
               Sign up
-            </button>
+            </span>
           </p>
         </div>
       </div>
