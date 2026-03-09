@@ -23,7 +23,7 @@ const Login = ({ onLogin }) => {
       );
 
       if (res.data.success) {
-        // Save token
+
         localStorage.setItem("mytoken", res.data.token);
 
         alert("Login successful");
@@ -107,6 +107,7 @@ const Login = ({ onLogin }) => {
                 <input
                   type={showPassword ? "text" : "password"}
                   required
+                  autoComplete="current-password"
                   value={loginForm.userpassword}
                   onChange={(e) =>
                     setLoginForm({

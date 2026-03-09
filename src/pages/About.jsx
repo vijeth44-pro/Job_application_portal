@@ -306,11 +306,10 @@ const About = () => {
               <Grid container spacing={4} justifyContent="center">
 
                 {[
-                  { value: "250M", label: "unique monthly visitors" },
-                  { value: "175M", label: "resumes" },
-                  { value: "320M", label: "total ratings & reviews" },
-                  { value: "10", label: "jobs added per second" },
-                  { value: "750M", label: "salaries" },
+                  { value: "100+", label: "Live Jobs" },
+                  { value: "100+", label: "Companies" },
+                  { value: "4", label: "Candidates" },
+                  { value: "10+", label: "New Jobs" },
                 ].map((item, index) => (
 
                   <Grid item xs={6} md={2.4} key={index}>
@@ -333,7 +332,6 @@ const About = () => {
                       <Typography sx={{ color: "text.secondary", mt: 1 }}>
                         {item.label}
                       </Typography>
-
                     </motion.div>
 
                   </Grid>
@@ -341,7 +339,6 @@ const About = () => {
                 ))}
 
               </Grid>
-
             </motion.div>
 
           </Box>

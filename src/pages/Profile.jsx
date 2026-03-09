@@ -7,12 +7,25 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
     location: '',
     experience: '',
     skills: '',
+    gender: '',
+    education: '',
+    category: '',
     resume: null
   });
 
   useEffect(() => {
-    if (currentUser?.profile) {
-      setProfileForm(currentUser.profile);
+    if (currentUser) {
+      setProfileForm({
+        name: currentUser.profile?.name || currentUser.name || '',
+        phone: currentUser.profile?.phone || currentUser.phone || '',
+        location: currentUser.profile?.location || '',
+        experience: currentUser.profile?.experience || '',
+        skills: currentUser.profile?.skills || '',
+        gender: currentUser.profile?.gender || '',
+        education: currentUser.profile?.education || '',
+        category: currentUser.profile?.category || '',
+        resume: currentUser.profile?.resume || null
+      });
     }
   }, [currentUser]);
 
@@ -58,8 +71,8 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
 
-          {/* Inputs */}
-          {["name", "phone", "location", "experience"].map((field) => (
+          {/* Text Inputs */}
+          {["name", "phone", "location", "experience", "education", "category"].map((field) => (
             <input
               key={field}
               placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
@@ -79,6 +92,30 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
               required
             />
           ))}
+
+          {/* Gender Dropdown */}
+          <select
+            value={profileForm.gender}
+            onChange={(e) =>
+              setProfileForm({ ...profileForm, gender: e.target.value })
+            }
+            className="w-full px-5 py-4
+              bg-white/50 backdrop-blur-md
+              border border-white/50
+              rounded-2xl
+              shadow-inner
+              focus:outline-none
+              focus:ring-2 focus:ring-blue-500/40
+              focus:shadow-[0_0_25px_rgba(37,99,235,0.2)]
+              transition-all duration-300"
+            required
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
 
           {/* Skills */}
           <textarea
@@ -124,7 +161,9 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
 
             {profileForm.resume && (
               <p className="text-sm text-green-600 mt-2 font-medium">
-                Uploaded: {profileForm.resume.name}
+                Uploaded: {typeof profileForm.resume === 'string'
+                  ? profileForm.resume.split('/').pop()
+                  : profileForm.resume?.name}
               </p>
             )}
           </div>
@@ -145,8 +184,6 @@ const Profile = ({ currentUser, onUpdateProfile }) => {
               overflow-hidden"
           >
             <span className="relative z-10">Save Profile</span>
-
-            {/* Liquid shine effect */}
             <span className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-2xl"></span>
           </button>
 

@@ -128,37 +128,36 @@ const SearchJobs = ({ onApply }) => {
               <p><strong>Location:</strong> {selectedJob.location}</p>
               <p><strong>Job Type:</strong> {selectedJob.jobType || "Not specified"}</p>
               <p><strong>Category:</strong> {selectedJob.category || "Not specified"}</p>
+              <p><strong>Work Experience:</strong> {selectedJob.workExperience || "Not specified"}</p>
               <p><strong>Contact Email:</strong> {selectedJob.contactEmail || "Not specified"}</p>
               <p><strong>Salary:</strong> {selectedJob.salary ? `₹ ${selectedJob.salary}` : "Not specified"}</p>
               <p><strong>Description:</strong></p>
               <p>{selectedJob.description || "No description provided."}</p>
             </div>
 
-           <button
-  onClick={() => {
-    if (selectedJob.applyLink) {
-      window.open(selectedJob.applyLink, "_blank");
-    }
+            <button
+              onClick={() => {
+                if (selectedJob.applyLink) {
+                  window.open(selectedJob.applyLink, "_blank");
+                }
 
-    if (onApply) {
-      onApply(selectedJob._id);
-    }
+                if (onApply) {
+                  onApply(selectedJob._id);
+                }
 
-    setSelectedJob(null);
-  }}
-  className="w-full mt-8 py-4 bg-blue-600 text-white rounded-2xl"
->
-  Apply Now
-</button>
+                setSelectedJob(null);
+              }}
+              className="w-full mt-8 py-4 bg-blue-600 text-white rounded-2xl"
+            >
+              Apply Now
+            </button>
           </div>
         </div>
       )}
 
-      
-
       <FooterAfterLogin />
     </div>
-    
+
   );
 };
 
