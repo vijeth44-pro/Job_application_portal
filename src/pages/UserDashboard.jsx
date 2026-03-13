@@ -34,15 +34,15 @@ const UserDashboard = ({
   const [candidateCount, setCandidateCount] = useState(0);
 
   useEffect(() => {
-  fetch("http://localhost:9000/admin/users/count")
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        setCandidateCount(data.count);
-      }
-    })
-    .catch((err) => console.error("Error fetching user count:", err));
-}, []);
+    fetch("http://localhost:9000/admin/users/count")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setCandidateCount(data.count);
+        }
+      })
+      .catch((err) => console.error("Error fetching user count:", err));
+  }, []);
 
 
 
@@ -155,17 +155,6 @@ const UserDashboard = ({
               </p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-yellow-600" />
-                </div>
-                <span className="text-3xl font-bold text-slate-900">
-                  {pendingApps}
-                </span>
-              </div>
-              <p className="text-slate-600 font-medium">Pending</p>
-            </div>
 
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
@@ -178,6 +167,20 @@ const UserDashboard = ({
               </div>
               <p className="text-slate-600 font-medium">
                 Available Jobs
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-green-600" />
+                </div>
+                <span className="text-3xl font-bold text-slate-900">
+                  {applications.length}
+                </span>
+              </div>
+              <p className="text-slate-600 font-medium">
+                Active Applications
               </p>
             </div>
 
@@ -261,11 +264,9 @@ const UserDashboard = ({
 
           {/* ================= EXTENDED SECTIONS ================= */}
 
-          {/* Job Stats */}
-
-
           <section className="space-y-24">
 
+            {/* Job Stats */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
@@ -297,40 +298,48 @@ const UserDashboard = ({
 
             </motion.div>
 
-            {/* Popular Vacancies */}
-
+            {/* Recommended Jobs */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
             >
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-slate-900 mb-12">
-                  Most Popular Vacancies
-                </h2>
+              <div className="text-center mb-5">
+                <h2 className="text-3xl font-bold text-slate-900">Recommended Jobs</h2>
+                <p className="text-slate-500 mt-2">Hand-picked opportunities just for you</p>
+              </div>
 
-                <div className="grid md:grid-cols-4 gap-10 text-sm">
-                  {[
-                    "Software Developer",
-                    "Data Scientist",
-                    "Financial Manager",
-                    "IT Manager",
-                    "Management Analysis",
-                    "Operations Research Analysis",
-                    "Psychiatrists",
-                    "Orthodontists",
-                  ].map((job, index) => (
-                    <div
-                      key={index}
-                      className="rounded-2xl p-6 border border-blue-500 bg-white/80 backdrop-blur-md shadow-sm hover:shadow-md transition duration-300 hover:-translate-y-1 cursor-pointer"
-                    >
-                      <p className="font-semibold text-slate-800 hover:text-blue-600 transition">
-                        {job}
-                      </p>
+              <div className="grid md:grid-cols-3 gap-5">
+                {jobs.slice(0, 3).map((job, index) => (
+                  <div
+                    key={job._id || index}
+                    className="bg-white rounded-2xl shadow-md border border-blue-100 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <Briefcase className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 text-sm">{job.title}</h3>
+                        <p className="text-slate-500 text-xs">{job.company}</p>
+                      </div>
                     </div>
-                  ))}
-                </div>
+
+                    <div className="space-y-1 text-xs text-slate-500 mb-4">
+                      {job.location && <p>📍 {job.location}</p>}
+                      {job.jobType && <p>💼 {job.jobType}</p>}
+                      {job.salary && <p>💰 ₹{job.salary}</p>}
+                    </div>
+
+                    <button
+                      onClick={() => go("search-jobs")}
+                      className="w-full py-2 bg-gradient-to-r from-blue-700 to-blue-500 text-white text-sm font-semibold rounded-xl hover:shadow-md transition-all"
+                    >
+                      View Job
+                    </button>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
@@ -338,7 +347,7 @@ const UserDashboard = ({
 
         </div>
       </div>
-      
+
 
       <FooterAfterLogin />
 
