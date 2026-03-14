@@ -15,35 +15,35 @@ const fadeUp = {
   },
 };
 
-const UserDashboard = ({ currentUser, applications = [], onNavigate, onLogout }) => {
+const UserDashboard = ({
+  currentUser,
+  applications = [],
+  jobs = [],          // ← comes from App.jsx, no need to fetch again
+  onNavigate,
+  onLogout,
+}) => {
   const navigate = useNavigate();
-  const [jobs, setJobs] = useState([]);
   const [candidateCount, setCandidateCount] = useState(0);
 
   useEffect(() => {
-    fetch("http://localhost:9000/jobs")
-      .then((res) => res.json())
-      .then((data) => { if (data.success) setJobs(data.jobs); })
-      .catch((err) => console.error("Error fetching jobs:", err));
-
     fetch("http://localhost:9000/admin/users/count")
       .then((res) => res.json())
       .then((data) => { if (data.success) setCandidateCount(data.count); })
       .catch((err) => console.error("Error fetching user count:", err));
   }, []);
 
-  const pendingApps = applications.filter((app) => app.status === "pending").length;
+  const pendingApps = applications.filter((app) => app.status === "Pending").length
 
   const go = (page) => {
     if (onNavigate) { onNavigate(page); return; }
     switch (page) {
-      case "search-jobs":     navigate("/jobs");         break;
-      case "profile":         navigate("/profile");      break;
+      case "search-jobs": navigate("/jobs"); break;
+      case "profile": navigate("/profile"); break;
       case "my-applications": navigate("/applications"); break;
-      case "landing":         navigate("/");             break;
-      case "register":        navigate("/register");     break;
-      case "login":           navigate("/login");        break;
-      default:                navigate("/");
+      case "landing": navigate("/"); break;
+      case "register": navigate("/register"); break;
+      case "login": navigate("/login"); break;
+      default: navigate("/");
     }
   };
 
@@ -129,8 +129,8 @@ const UserDashboard = ({ currentUser, applications = [], onNavigate, onLogout })
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Quick Actions</h3>
                 <div className="space-y-3">
                   {[
-                    { label: "Browse Jobs",       icon: <Search className="w-5 h-5" />,   page: "search-jobs"     },
-                    { label: "Update Profile",    icon: <User className="w-5 h-5" />,     page: "profile"         },
+                    { label: "Browse Jobs", icon: <Search className="w-5 h-5" />, page: "search-jobs" },
+                    { label: "Update Profile", icon: <User className="w-5 h-5" />, page: "profile" },
                     { label: "View Applications", icon: <FileText className="w-5 h-5" />, page: "my-applications" },
                   ].map(({ label, icon, page }) => (
                     <button
@@ -178,10 +178,10 @@ const UserDashboard = ({ currentUser, applications = [], onNavigate, onLogout })
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {[
-                  { title: "Live Jobs",   value: jobs.length   },
-                  { title: "Companies",   value: "100+"        },
-                  { title: "Candidates",  value: candidateCount},
-                  { title: "New Jobs",    value: jobs.length   },
+                  { title: "Live Jobs", value: jobs.length },
+                  { title: "Companies", value: "100+" },
+                  { title: "Candidates", value: candidateCount },
+                  { title: "New Jobs", value: jobs.length },
                 ].map((item, index) => (
                   <div
                     key={index}
@@ -219,8 +219,8 @@ const UserDashboard = ({ currentUser, applications = [], onNavigate, onLogout })
 
                     <div className="space-y-1 text-xs text-slate-500 mb-4">
                       {job.location && <p>📍 {job.location}</p>}
-                      {job.jobType  && <p>💼 {job.jobType}</p>}
-                      {job.salary   && <p>💰 ₹{job.salary}</p>}
+                      {job.jobType && <p>💼 {job.jobType}</p>}
+                      {job.salary && <p>💰 ₹{job.salary}</p>}
                     </div>
 
                     <button
