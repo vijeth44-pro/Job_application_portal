@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Briefcase } from "lucide-react";
-import { Search } from "lucide-react";
+import { Briefcase, Search, Home, Info } from "lucide-react";
 
 const Navbar = ({ currentUser, onLogout }) => {
   const navigate = useNavigate();
@@ -36,6 +35,9 @@ const Navbar = ({ currentUser, onLogout }) => {
       case "about":
         navigate("/about");
         break;
+      case "applications":
+        navigate("/applications");
+        break;
       default:
         navigate("/");
     }
@@ -59,9 +61,7 @@ const Navbar = ({ currentUser, onLogout }) => {
 
           {/* Logo */}
           <div
-            onClick={() =>
-              go(currentUser ? "user-dashboard" : "landing")
-            }
+            onClick={() => go(currentUser ? "user-dashboard" : "landing")}
             className="flex items-center gap-3 cursor-pointer"
           >
             <div className="bg-white/20 p-2 rounded-lg">
@@ -72,37 +72,56 @@ const Navbar = ({ currentUser, onLogout }) => {
             </span>
           </div>
 
+          {/* Center: Search + Nav Buttons */}
+          <div className="flex items-center gap-3">
 
-          {/* Glass Search Button - Show Only After Login */}
-          {currentUser && (
-            <div className="flex items-center 
-                   bg-white/15 
-                   backdrop-blur-xl 
-                   border border-white/30   
-                    rounded-full 
-                    px-4 py-1.5 
-                    w-80
-                    h-10
-                   shadow-lg  
-                   hover:bg-white/20 
-                  transition-all duration-300
-                  -ml-100"
-
-            >
-              <span
-                onClick={() => go("search-jobs")}
-                className="flex items-center gap-2 text-white/80 text-sm flex-1 cursor-pointer"
+            {/* Glass Search Button - Show Only After Login */}
+            {currentUser && (
+              <div className="flex items-center 
+                     bg-white/15 
+                     backdrop-blur-xl 
+                     border border-white/30   
+                      rounded-full 
+                      px-4 py-1.5 
+                      w-64
+                      h-10
+                     shadow-lg  
+                     hover:bg-white/20 
+                    transition-all duration-300"
               >
-                <Search className="w-4 h-4" />
-                Search jobs here
-              </span>
-            </div>
-          )}
+                <span
+                  onClick={() => go("search-jobs")}
+                  className="flex items-center gap-2 text-white/80 text-sm flex-1 cursor-pointer"
+                >
+                  <Search className="w-4 h-4" />
+                  Search jobs here
+                </span>
+              </div>
+            )}
 
+            {/* Home Button */}
+            {currentUser && (
+              <button
+                onClick={() => go(currentUser ? "user-dashboard" : "landing")}
+                className="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-xl border border-white/30 text-white rounded-xl hover:bg-white/25 transition-all text-sm font-medium ml-125"
+              >
+                <Home className="w-4 h-4" />
+                Home
+              </button>
+            )}
 
+            {/* About Button */}
+            {currentUser && (
+              <button
+                onClick={() => go("about")}
+                className="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-xl border border-white/30 text-white rounded-xl hover:bg-white/25 transition-all text-sm font-medium"
+              >
+                <Info className="w-4 h-4" />
+                About
+              </button>
+            )}
 
-
-
+          </div>
 
           {/* Right Section */}
           <div className="flex items-center gap-4">
@@ -152,18 +171,12 @@ const Navbar = ({ currentUser, onLogout }) => {
                       Profile
                     </button>
 
-                    <button
-                      onClick={() => go("user-dashboard")}
-                      className="block w-full text-left px-5 py-3 text-white hover:bg-white/20 transition-all"
-                    >
-                      Dashboard
-                    </button>
 
                     <button
-                      onClick={() => go("track")}
+                      onClick={() => go("applications")}
                       className="block w-full text-left px-5 py-3 text-white hover:bg-white/20 transition-all"
                     >
-                      Track Jobs
+                      My Applications
                     </button>
 
                     <button
@@ -173,12 +186,6 @@ const Navbar = ({ currentUser, onLogout }) => {
                       Find Job
                     </button>
 
-                    <button
-                      onClick={() => go("about")}
-                      className="block w-full text-left px-5 py-3 text-white hover:bg-white/20 transition-all"
-                    >
-                      About
-                    </button>
 
                     <div className="border-t border-white/20" />
 
@@ -196,7 +203,7 @@ const Navbar = ({ currentUser, onLogout }) => {
           </div>
         </div>
       </div>
-    </nav >
+    </nav>
   );
 };
 
