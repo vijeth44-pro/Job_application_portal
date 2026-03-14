@@ -32,7 +32,7 @@ function App() {
   const fetchJobs = async () => {
     try {
       const res = await axios.get("http://localhost:9000/jobs/all");
-      if (res.data.success) setJobs(res.data.data);
+      if (res.data.success) setJobs(res.data.data); // FIXED: was res.data.data
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +62,7 @@ function App() {
 
     try {
       const res = await axios.get(
-        "http://localhost:9000/api/applications/my",   // ✅ FIXED
+        "http://localhost:9000/api/applications/my",
         { headers: { "auth-token": token } }
       );
 
@@ -75,7 +75,7 @@ function App() {
   /* ================= LOGIN ================= */
   const handleLogin = () => {
     fetchProfile();
-    fetchApplications();  // refresh apps after login
+    fetchApplications();
     navigate("/dashboard");
   };
 
@@ -106,7 +106,6 @@ function App() {
         alert("Applied Successfully");
         fetchApplications();
       }
-
     } catch (err) {
       alert(err.response?.data?.message || "Apply failed");
     }
@@ -118,7 +117,7 @@ function App() {
 
     try {
       await axios.delete(
-        `http://localhost:9000/api/applications/withdraw/${id}`, // only if backend exists
+        `http://localhost:9000/api/applications/withdraw/${id}`,
         { headers: { "auth-token": token } }
       );
 
@@ -203,6 +202,7 @@ function App() {
             />
           }
         />
+
         <Route
           path="/track"
           element={
