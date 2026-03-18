@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { FileText, Calendar, MapPin, X } from 'lucide-react';
+import { FileText, Calendar, MapPin, X, AlertTriangle } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
 const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
 
-const navigate = useNavigate();
-const [selectedJob, setSelectedJob] = useState(null);
+  const navigate = useNavigate();
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [confirmWithdrawId, setConfirmWithdrawId] = useState(null);
 
-const myApps = applications.map(app => ({
-  ...app,
-  job:
-    app.job ||
-    jobs?.find(
-      j => j._id === (app.jobId?._id || app.jobId || app.job?._id)
-    ),
-}));
+  const myApps = applications.map(app => ({
+    ...app,
+    job:
+      app.job ||
+      jobs?.find(
+        j => j._id === (app.jobId?._id || app.jobId || app.job?._id)
+      ),
+  }));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 py-12 px-4">
@@ -62,20 +63,49 @@ const myApps = applications.map(app => ({
                     View Details
                   </button>
 
-                  {app.status === 'pending' && (
-                    <button
-                      onClick={() => onWithdraw(app._id)}
-                      className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition"
-                    >
-                      Withdraw Application
-                    </button>
-                  )}
+                  {/* ✅ Cancel button — always visible, triggers confirmation */}
+                  <button
+                    onClick={() => setConfirmWithdrawId(app._id)}
+                    className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition"
+                  >
+                    Cancel Application
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* ✅ Confirmation Dialog */}
+      {confirmWithdrawId && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-8 shadow-2xl text-center">
+            <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Cancel Application?</h3>
+            <p className="text-slate-500 mb-6">
+              Are you sure you want to cancel this application? This action cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => setConfirmWithdrawId(null)}
+                className="px-5 py-2 border border-slate-300 text-slate-600 rounded-lg hover:bg-slate-50 transition"
+              >
+                Keep It
+              </button>
+              <button
+                onClick={() => {
+                  onWithdraw(confirmWithdrawId);
+                  setConfirmWithdrawId(null);
+                }}
+                className="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              >
+                Yes, Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Job Details Modal */}
       {selectedJob && (
