@@ -63,13 +63,7 @@ const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
                     View Details
                   </button>
 
-                  {/* ✅ Cancel button — always visible, triggers confirmation */}
-                  <button
-                    onClick={() => setConfirmWithdrawId(app._id)}
-                    className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition"
-                  >
-                    Cancel Application
-                  </button>
+                 
                 </div>
               </div>
             ))}
@@ -110,7 +104,7 @@ const MyApplications = ({ applications, jobs, onWithdraw, onNavigate }) => {
       {/* Job Details Modal */}
       {selectedJob && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-10 shadow-2xl overflow-y-auto max-h-[90vh]">
+          <div className="bg-white rounded-3xl max-w-2xl Caw-full p-10 shadow-2xl overflow-y-auto max-h-[90vh]">
             <div className="flex justify-between items-start mb-8">
               <div>
                 <h3 className="text-2xl font-bold">{selectedJob.title}</h3>
